@@ -1,8 +1,22 @@
+-- depends_on: {{ ref('calendar') }}
+-- depends_on: {{ ref('calendarday') }}
+-- depends_on: {{ ref('calendarperiod') }}
+-- depends_on: {{ ref('currency') }}
+-- depends_on: {{ ref('currencyexchangerate') }}
+-- depends_on: {{ ref('currencyexchangerateitem') }}
 -- depends_on: {{ ref('transactionsperiod') }}
+-- depends_on: {{ ref('types') }}
 
 {{ config(alias='FILE_STATUS', 
           schema='ETL',
-          tags=['transactionsperiod']
+          tags=['calendar',
+                'calendarday',
+                'calendarperiod',
+                'currency',
+                'currencyexchangerate',
+                'currencyexchangerateitem',
+                'transactionsperiod',
+                'types']
          ) }}
 
 /***********************************************************
@@ -23,7 +37,7 @@ SELECT s.FILE_NAME,
        s.TABLE_NAME,
        s.FILE_PROCESSED_TS
   FROM "POC"."ETL"."FILE_STATUS"  s
-  JOIN {{ref('transactionsperiod_ctrl')}}  ctrl
+  JOIN {{ref('file_control')}}  ctrl
     ON s.FILE_NAME = ctrl.FILE_NAME and
        s.CLIENT_NM = ctrl.CLIENT_NM and
        s.TABLE_NAME = ctrl.TABLE_NAME
@@ -31,4 +45,4 @@ SELECT s.FILE_NAME,
  )
 UNION
 SELECT *
-  FROM {{ref('transactionsperiod_ctrl')}}  ctrl
+  FROM {{ref('file_control')}}  ctrl
