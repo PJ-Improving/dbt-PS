@@ -1,4 +1,5 @@
-{{ config(tags=['types']
+{{ config(alias='TYPES',
+          tags=['types']
          ) }}
 
 /****************************************************************
@@ -48,7 +49,7 @@ SELECT r.ID,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
           FROM "POC"."LANDING"."TYPES" land
-          JOIN {{ref('types_ctrl')}}  ctrl
+          JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
          WHERE SYS_CHANGE_OPERATION = 'U')  d 
@@ -73,7 +74,7 @@ SELECT ID,
        land.CLIENT_NM AS CLIENT_NM,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
   FROM "POC"."LANDING"."TYPES" land
-  JOIN {{ref('types_ctrl')}}  ctrl
+  JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM
  WHERE SYS_CHANGE_OPERATION = 'I'
