@@ -4,6 +4,32 @@
 -- depends_on: {{ ref('currency') }}
 -- depends_on: {{ ref('currencyexchangerate') }}
 -- depends_on: {{ ref('currencyexchangerateitem') }}
+-- depends_on: {{ ref('currencyexchangeratetype') }}
+-- depends_on: {{ ref('items') }}
+-- depends_on: {{ ref('itemslists') }}
+-- depends_on: {{ ref('itemssite') }}
+-- depends_on: {{ ref('itemstypes') }}
+-- depends_on: {{ ref('laboritems') }}
+-- depends_on: {{ ref('laborperson') }}
+-- depends_on: {{ ref('labortypes') }}
+-- depends_on: {{ ref('master') }}
+-- depends_on: {{ ref('menupermissionstemplates') }}
+-- depends_on: {{ ref('options') }}
+-- depends_on: {{ ref('security') }}
+-- depends_on: {{ ref('segmentations') }}
+-- depends_on: {{ ref('siteoptions') }}
+-- depends_on: {{ ref('sites') }}
+-- depends_on: {{ ref('sitesaddresses') }}
+-- depends_on: {{ ref('sitesbilling') }}
+-- depends_on: {{ ref('sitesgroup') }}
+-- depends_on: {{ ref('siteslists') }}
+-- depends_on: {{ ref('siteslistsitems') }}
+-- depends_on: {{ ref('sitesrooms') }}
+-- depends_on: {{ ref('sitestypes') }}
+-- depends_on: {{ ref('templateroles') }}
+-- depends_on: {{ ref('transactions') }}
+-- depends_on: {{ ref('transactionsdaydetail') }}
+-- depends_on: {{ ref('transactionsmonth') }}
 -- depends_on: {{ ref('transactionsperiod') }}
 -- depends_on: {{ ref('types') }}
 
@@ -15,6 +41,32 @@
                 'currency',
                 'currencyexchangerate',
                 'currencyexchangerateitem',
+                'currencyexchangeratetype',
+                'items',
+                'itemslists',
+                'itemssite',
+                'itemstypes',
+                'laboritems',
+                'laborperson',
+                'labortypes',
+                'master',
+                'menupermissionstemplates',
+                'options',
+                'security',
+                'segmentations',
+                'siteoptions',
+                'sites',
+                'sitesaddresses',
+                'sitesbilling',
+                'sitesgroup',
+                'siteslists',
+                'siteslistsitems',
+                'sitesrooms',
+                'sitestypes',
+                'templateroles',
+                'transactions',
+                'transactionsdaydetail',
+                'transactionsmonth',
                 'transactionsperiod',
                 'types']
          ) }}
