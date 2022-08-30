@@ -7,7 +7,8 @@
  *  (ie. ALL target rows MINUS the rows to be deleted)
 *****************************************************************/
 (
-SELECT a.ID,
+SELECT a.CLIENT_NM,
+       a.ID,
        a.PID,
        a.TAG,
        a.SORT,
@@ -17,11 +18,11 @@ SELECT a.ID,
        a.ROLES,
        a.ITEMID,
        a.LASTMODIFIEDDATE,
-       a.CLIENT_NM,
        a.ROW_INSERT_TS
   FROM "POC"."RAW"."TYPES"  a
 MINUS
-SELECT r.ID,
+SELECT r.CLIENT_NM,
+       r.ID,
        r.PID,
        r.TAG,
        r.SORT,
@@ -31,7 +32,6 @@ SELECT r.ID,
        r.ROLES,
        r.ITEMID,
        r.LASTMODIFIEDDATE,
-       r.CLIENT_NM,
        r.ROW_INSERT_TS
   FROM "POC"."RAW"."TYPES"  r
   JOIN (SELECT ID,
@@ -61,7 +61,8 @@ UNION
 /********************************************************************************
  *  This query grabs the NEW source rows that will be APPENDED to the target
  ********************************************************************************/
-SELECT ID,
+SELECT land.CLIENT_NM AS CLIENT_NM,
+       ID,
        PID,
        TAG,
        SORT,
@@ -71,7 +72,6 @@ SELECT ID,
        ROLES,
        ITEMID,
        LASTMODIFIEDDATE,
-       land.CLIENT_NM AS CLIENT_NM,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
   FROM "POC"."LANDING"."TYPES" land
   JOIN {{ref('file_control')}}  ctrl
