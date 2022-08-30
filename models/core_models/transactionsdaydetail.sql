@@ -1,5 +1,5 @@
-{{ config(alias='TRANSACTIONSPERIOD',
-          tags=['transactionsperiod']
+{{ config(alias='TRANSACTIONSDAYDETAIL',
+          tags=['transactionsdaydetail']
          ) }}
 
 /****************************************************************
@@ -10,49 +10,45 @@
 SELECT a.CLIENT_NM,
        a.SITEID,
        a.FCID,
-       a.YEAR,
-       a.PERIOD,
+       a.DATE,
        a.TIMECHANGE,
        a.TIMECHANGEEND,
        a.ITEMID,
        a.QTY,
        a.AMT,
-       a.FACTOR,
-       a.RATE,
        a.CHANGEDBY,
+       a.FACTOR,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TRANSACTIONSPERIOD"  a
+  FROM "POC"."RAW"."TRANSACTIONSDAYDETAIL"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.SITEID,
        r.FCID,
-       r.YEAR,
-       r.PERIOD,
+       r.DATE,
        r.TIMECHANGE,
        r.TIMECHANGEEND,
        r.ITEMID,
        r.QTY,
        r.AMT,
-       r.FACTOR,
-       r.RATE,
        r.CHANGEDBY,
+       r.FACTOR,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TRANSACTIONSPERIOD"  r
-  JOIN (SELECT land.CLIENT_NM AS CLIENT_NM,
-               SITEID,
+  FROM "POC"."RAW"."TRANSACTIONSDAYDETAIL"  r
+  JOIN (SELECT SITEID,
                FCID,
-               YEAR,
-               PERIOD,
+               DATE,
                TIMECHANGE,
                TIMECHANGEEND,
                ITEMID,
                QTY,
                AMT,
-               FACTOR,
-               RATE,
                CHANGEDBY,
-               ROW_INSERT_TS
-          FROM "POC"."LANDING"."TRANSACTIONSPERIOD" land
+               FACTOR,
+               land.CLIENT_NM AS CLIENT_NM,
+               ROW_INSERT_TS,
+               SYS_CHANGE_OPERATION,
+               JSON_FILENAME
+          FROM "POC"."LANDING"."TRANSACTIONSDAYDETAIL" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
@@ -60,8 +56,7 @@ SELECT r.CLIENT_NM,
     ON r.CLIENT_NM = d.CLIENT_NM
     and r.SITEID = d.SITEID
     and r.FCID = d.FCID
-    and r.YEAR = d.YEAR
-    and r.PERIOD = d.PERIOD
+    and r.DATE = d.DATE
     and r.TIMECHANGE = d.TIMECHANGE
     and r.ITEMID = d.ITEMID
 )
@@ -73,18 +68,16 @@ UNION
 SELECT land.CLIENT_NM AS CLIENT_NM,
        SITEID,
        FCID,
-       YEAR,
-       PERIOD,
+       DATE,
        TIMECHANGE,
        TIMECHANGEEND,
        ITEMID,
        QTY,
        AMT,
-       FACTOR,
-       RATE,
        CHANGEDBY,
+       FACTOR,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TRANSACTIONSPERIOD" land
+  FROM "POC"."LANDING"."TRANSACTIONSDAYDETAIL" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

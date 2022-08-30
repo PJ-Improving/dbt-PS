@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='SITESTYPES',
+          tags=['sitestypes']
          ) }}
 
 /****************************************************************
@@ -8,53 +8,30 @@
 *****************************************************************/
 (
 SELECT a.CLIENT_NM,
-       a.ID,
-       a.PID,
-       a.TAG,
-       a.SORT,
-       a.TYPE,
-       a.LABEL,
-       a.DATA,
-       a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
+       a.SITEID,
+       a.SITETYPE,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."SITESTYPES"  a
 MINUS
 SELECT r.CLIENT_NM,
-       r.ID,
-       r.PID,
-       r.TAG,
-       r.SORT,
-       r.TYPE,
-       r.LABEL,
-       r.DATA,
-       r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
+       r.SITEID,
+       r.SITETYPE,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
-  JOIN (SELECT ID,
-               PID,
-               TAG,
-               SORT,
-               TYPE,
-               LABEL,
-               DATA,
-               ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
+  FROM "POC"."RAW"."SITESTYPES"  r
+  JOIN (SELECT SITEID,
+               SITETYPE,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."SITESTYPES" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
          WHERE SYS_CHANGE_OPERATION = 'U')  d 
     ON r.CLIENT_NM = d.CLIENT_NM
-    and r.ID = d.ID
+    and r.SITEID = d.SITEID
+    and r.SITETYPE = d.SITETYPE
 )
 UNION
 
@@ -62,18 +39,10 @@ UNION
  *  This query grabs the NEW source rows that will be APPENDED to the target
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
-       ID,
-       PID,
-       TAG,
-       SORT,
-       TYPE,
-       LABEL,
-       DATA,
-       ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
+       SITEID,
+       SITETYPE,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."SITESTYPES" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

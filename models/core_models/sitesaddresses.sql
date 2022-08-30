@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='SITESADDRESSES',
+          tags=['sitesaddresses']
          ) }}
 
 /****************************************************************
@@ -9,46 +9,55 @@
 (
 SELECT a.CLIENT_NM,
        a.ID,
-       a.PID,
+       a.SITEID,
        a.TAG,
-       a.SORT,
-       a.TYPE,
-       a.LABEL,
-       a.DATA,
-       a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
+       a.NAME,
+       a.ADDRESS,
+       a.CITY,
+       a.STATE,
+       a.ZIP,
+       a.COUNTRY,
+       a.PHONE,
+       a.FAX,
+       a.LATITUDE,
+       a.LONGITUDE,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."SITESADDRESSES"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.ID,
-       r.PID,
+       r.SITEID,
        r.TAG,
-       r.SORT,
-       r.TYPE,
-       r.LABEL,
-       r.DATA,
-       r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
+       r.NAME,
+       r.ADDRESS,
+       r.CITY,
+       r.STATE,
+       r.ZIP,
+       r.COUNTRY,
+       r.PHONE,
+       r.FAX,
+       r.LATITUDE,
+       r.LONGITUDE,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
+  FROM "POC"."RAW"."SITESADDRESSES"  r
   JOIN (SELECT ID,
-               PID,
+               SITEID,
                TAG,
-               SORT,
-               TYPE,
-               LABEL,
-               DATA,
-               ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
+               NAME,
+               ADDRESS,
+               CITY,
+               STATE,
+               ZIP,
+               COUNTRY,
+               PHONE,
+               FAX,
+               LATITUDE,
+               LONGITUDE,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."SITESADDRESSES" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
@@ -63,17 +72,20 @@ UNION
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
        ID,
-       PID,
+       SITEID,
        TAG,
-       SORT,
-       TYPE,
-       LABEL,
-       DATA,
-       ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
+       NAME,
+       ADDRESS,
+       CITY,
+       STATE,
+       ZIP,
+       COUNTRY,
+       PHONE,
+       FAX,
+       LATITUDE,
+       LONGITUDE,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."SITESADDRESSES" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

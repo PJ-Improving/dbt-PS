@@ -8,7 +8,7 @@ config-version: 2
 
 vars:
   # The 'table_name' variable will be accessible in all resources
-  ctrl_model: 'model_name'
+  table_name: 'SOMETABLENAME'
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'SFdev'

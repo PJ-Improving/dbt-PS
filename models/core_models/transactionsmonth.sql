@@ -1,5 +1,5 @@
-{{ config(alias='TRANSACTIONSPERIOD',
-          tags=['transactionsperiod']
+{{ config(alias='TRANSACTIONSMONTH',
+          tags=['transactionsmonth']
          ) }}
 
 /****************************************************************
@@ -9,61 +9,73 @@
 (
 SELECT a.CLIENT_NM,
        a.SITEID,
-       a.FCID,
        a.YEAR,
-       a.PERIOD,
-       a.TIMECHANGE,
-       a.TIMECHANGEEND,
-       a.ITEMID,
+       a.MONTH,
+       a.TAG,
        a.QTY,
        a.AMT,
-       a.FACTOR,
-       a.RATE,
-       a.CHANGEDBY,
+       a.FCQTY,
+       a.FCRATE,
+       a.FCAMT,
+       a.FCFACTOR,
+       a.BUDQTY,
+       a.BUDRATE,
+       a.BUDAMT,
+       a.BUDFACTOR,
+       a.CMTQTY,
+       a.CMTAMT,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TRANSACTIONSPERIOD"  a
+  FROM "POC"."RAW"."TRANSACTIONSMONTH"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.SITEID,
-       r.FCID,
        r.YEAR,
-       r.PERIOD,
-       r.TIMECHANGE,
-       r.TIMECHANGEEND,
-       r.ITEMID,
+       r.MONTH,
+       r.TAG,
        r.QTY,
        r.AMT,
-       r.FACTOR,
-       r.RATE,
-       r.CHANGEDBY,
+       r.FCQTY,
+       r.FCRATE,
+       r.FCAMT,
+       r.FCFACTOR,
+       r.BUDQTY,
+       r.BUDRATE,
+       r.BUDAMT,
+       r.BUDFACTOR,
+       r.CMTQTY,
+       r.CMTAMT,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TRANSACTIONSPERIOD"  r
-  JOIN (SELECT land.CLIENT_NM AS CLIENT_NM,
-               SITEID,
-               FCID,
+  FROM "POC"."RAW"."TRANSACTIONSMONTH"  r
+  JOIN (SELECT SITEID,
                YEAR,
-               PERIOD,
-               TIMECHANGE,
-               TIMECHANGEEND,
-               ITEMID,
+               MONTH,
+               TAG,
                QTY,
                AMT,
-               FACTOR,
-               RATE,
-               CHANGEDBY,
-               ROW_INSERT_TS
-          FROM "POC"."LANDING"."TRANSACTIONSPERIOD" land
+               FCQTY,
+               FCRATE,
+               FCAMT,
+               FCFACTOR,
+               BUDQTY,
+               BUDRATE,
+               BUDAMT,
+               BUDFACTOR,
+               CMTQTY,
+               CMTAMT,
+               land.CLIENT_NM AS CLIENT_NM,
+               ROW_INSERT_TS,
+               SYS_CHANGE_OPERATION,
+               JSON_FILENAME
+          FROM "POC"."LANDING"."TRANSACTIONSMONTH" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
          WHERE SYS_CHANGE_OPERATION = 'U')  d 
     ON r.CLIENT_NM = d.CLIENT_NM
     and r.SITEID = d.SITEID
-    and r.FCID = d.FCID
     and r.YEAR = d.YEAR
-    and r.PERIOD = d.PERIOD
-    and r.TIMECHANGE = d.TIMECHANGE
-    and r.ITEMID = d.ITEMID
+    and r.MONTH = d.MONTH
+    and r.TAG = d.TAG
 )
 UNION
 
@@ -72,19 +84,23 @@ UNION
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
        SITEID,
-       FCID,
        YEAR,
-       PERIOD,
-       TIMECHANGE,
-       TIMECHANGEEND,
-       ITEMID,
+       MONTH,
+       TAG,
        QTY,
        AMT,
-       FACTOR,
-       RATE,
-       CHANGEDBY,
+       FCQTY,
+       FCRATE,
+       FCAMT,
+       FCFACTOR,
+       BUDQTY,
+       BUDRATE,
+       BUDAMT,
+       BUDFACTOR,
+       CMTQTY,
+       CMTAMT,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TRANSACTIONSPERIOD" land
+  FROM "POC"."LANDING"."TRANSACTIONSMONTH" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

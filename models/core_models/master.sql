@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='MASTER',
+          tags=['master']
          ) }}
 
 /****************************************************************
@@ -8,53 +8,62 @@
 *****************************************************************/
 (
 SELECT a.CLIENT_NM,
-       a.ID,
-       a.PID,
-       a.TAG,
+       a.FCID,
+       a.DESCRIPTION,
+       a.MODE,
+       a.ISEDITABLE,
+       a.ISACTIVE,
        a.SORT,
-       a.TYPE,
-       a.LABEL,
-       a.DATA,
+       a.STARTYEAR,
+       a.STARTPERIOD,
+       a.ENDYEAR,
+       a.ENDPERIOD,
+       a.OPTIONSCSV,
+       a.ISWRITELOCKED,
        a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."MASTER"  a
 MINUS
 SELECT r.CLIENT_NM,
-       r.ID,
-       r.PID,
-       r.TAG,
+       r.FCID,
+       r.DESCRIPTION,
+       r.MODE,
+       r.ISEDITABLE,
+       r.ISACTIVE,
        r.SORT,
-       r.TYPE,
-       r.LABEL,
-       r.DATA,
+       r.STARTYEAR,
+       r.STARTPERIOD,
+       r.ENDYEAR,
+       r.ENDPERIOD,
+       r.OPTIONSCSV,
+       r.ISWRITELOCKED,
        r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
-  JOIN (SELECT ID,
-               PID,
-               TAG,
+  FROM "POC"."RAW"."MASTER"  r
+  JOIN (SELECT FCID,
+               DESCRIPTION,
+               MODE,
+               ISEDITABLE,
+               ISACTIVE,
                SORT,
-               TYPE,
-               LABEL,
-               DATA,
+               STARTYEAR,
+               STARTPERIOD,
+               ENDYEAR,
+               ENDPERIOD,
+               OPTIONSCSV,
+               ISWRITELOCKED,
                ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."MASTER" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
          WHERE SYS_CHANGE_OPERATION = 'U')  d 
     ON r.CLIENT_NM = d.CLIENT_NM
-    and r.ID = d.ID
+    and r.FCID = d.FCID
 )
 UNION
 
@@ -62,18 +71,21 @@ UNION
  *  This query grabs the NEW source rows that will be APPENDED to the target
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
-       ID,
-       PID,
-       TAG,
+       FCID,
+       DESCRIPTION,
+       MODE,
+       ISEDITABLE,
+       ISACTIVE,
        SORT,
-       TYPE,
-       LABEL,
-       DATA,
+       STARTYEAR,
+       STARTPERIOD,
+       ENDYEAR,
+       ENDPERIOD,
+       OPTIONSCSV,
+       ISWRITELOCKED,
        ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."MASTER" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='ITEMSLISTS',
+          tags=['itemslists']
          ) }}
 
 /****************************************************************
@@ -10,45 +10,48 @@
 SELECT a.CLIENT_NM,
        a.ID,
        a.PID,
-       a.TAG,
+       a.NEXTID,
+       a.ITEMID,
        a.SORT,
+       a.VALTYPE,
+       a.STYLE,
        a.TYPE,
        a.LABEL,
-       a.DATA,
        a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
+       a.PORTAG,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."ITEMSLISTS"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.ID,
        r.PID,
-       r.TAG,
+       r.NEXTID,
+       r.ITEMID,
        r.SORT,
+       r.VALTYPE,
+       r.STYLE,
        r.TYPE,
        r.LABEL,
-       r.DATA,
        r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
+       r.PORTAG,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
+  FROM "POC"."RAW"."ITEMSLISTS"  r
   JOIN (SELECT ID,
                PID,
-               TAG,
+               NEXTID,
+               ITEMID,
                SORT,
+               VALTYPE,
+               STYLE,
                TYPE,
                LABEL,
-               DATA,
                ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
+               PORTAG,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."ITEMSLISTS" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
@@ -64,16 +67,17 @@ UNION
 SELECT land.CLIENT_NM AS CLIENT_NM,
        ID,
        PID,
-       TAG,
+       NEXTID,
+       ITEMID,
        SORT,
+       VALTYPE,
+       STYLE,
        TYPE,
        LABEL,
-       DATA,
        ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
+       PORTAG,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."ITEMSLISTS" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

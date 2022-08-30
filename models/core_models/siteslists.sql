@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='SITESLISTS',
+          tags=['siteslists']
          ) }}
 
 /****************************************************************
@@ -9,46 +9,37 @@
 (
 SELECT a.CLIENT_NM,
        a.ID,
-       a.PID,
-       a.TAG,
+       a.SITEID,
        a.SORT,
-       a.TYPE,
        a.LABEL,
-       a.DATA,
-       a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
+       a.CALENDARID,
+       a.TYPE,
+       a.CONSOLIDATESITEID,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."SITESLISTS"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.ID,
-       r.PID,
-       r.TAG,
+       r.SITEID,
        r.SORT,
-       r.TYPE,
        r.LABEL,
-       r.DATA,
-       r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
+       r.CALENDARID,
+       r.TYPE,
+       r.CONSOLIDATESITEID,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
+  FROM "POC"."RAW"."SITESLISTS"  r
   JOIN (SELECT ID,
-               PID,
-               TAG,
+               SITEID,
                SORT,
-               TYPE,
                LABEL,
-               DATA,
-               ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
+               CALENDARID,
+               TYPE,
+               CONSOLIDATESITEID,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."SITESLISTS" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
@@ -63,17 +54,14 @@ UNION
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
        ID,
-       PID,
-       TAG,
+       SITEID,
        SORT,
-       TYPE,
        LABEL,
-       DATA,
-       ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
+       CALENDARID,
+       TYPE,
+       CONSOLIDATESITEID,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."SITESLISTS" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

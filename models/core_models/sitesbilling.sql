@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='SITESBILLING',
+          tags=['sitesbilling']
          ) }}
 
 /****************************************************************
@@ -9,46 +9,52 @@
 (
 SELECT a.CLIENT_NM,
        a.ID,
-       a.PID,
-       a.TAG,
-       a.SORT,
-       a.TYPE,
-       a.LABEL,
-       a.DATA,
-       a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
+       a.SITEID,
+       a.ENTITYTYPE,
+       a.STARTDATE,
+       a.TERMED,
+       a.TERMEDSTART,
+       a.TERMEDEND,
+       a.BILLABLE,
+       a.BILLINGTYPE,
+       a.EXCEPTION,
+       a.EXCEPTIONREASON,
+       a.UNITS,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."SITESBILLING"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.ID,
-       r.PID,
-       r.TAG,
-       r.SORT,
-       r.TYPE,
-       r.LABEL,
-       r.DATA,
-       r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
+       r.SITEID,
+       r.ENTITYTYPE,
+       r.STARTDATE,
+       r.TERMED,
+       r.TERMEDSTART,
+       r.TERMEDEND,
+       r.BILLABLE,
+       r.BILLINGTYPE,
+       r.EXCEPTION,
+       r.EXCEPTIONREASON,
+       r.UNITS,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
+  FROM "POC"."RAW"."SITESBILLING"  r
   JOIN (SELECT ID,
-               PID,
-               TAG,
-               SORT,
-               TYPE,
-               LABEL,
-               DATA,
-               ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
+               SITEID,
+               ENTITYTYPE,
+               STARTDATE,
+               TERMED,
+               TERMEDSTART,
+               TERMEDEND,
+               BILLABLE,
+               BILLINGTYPE,
+               EXCEPTION,
+               EXCEPTIONREASON,
+               UNITS,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."SITESBILLING" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
@@ -63,17 +69,19 @@ UNION
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
        ID,
-       PID,
-       TAG,
-       SORT,
-       TYPE,
-       LABEL,
-       DATA,
-       ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
+       SITEID,
+       ENTITYTYPE,
+       STARTDATE,
+       TERMED,
+       TERMEDSTART,
+       TERMEDEND,
+       BILLABLE,
+       BILLINGTYPE,
+       EXCEPTION,
+       EXCEPTIONREASON,
+       UNITS,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."SITESBILLING" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM

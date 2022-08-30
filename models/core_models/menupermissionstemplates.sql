@@ -1,5 +1,5 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='MENUPERMISSIONSTEMPLATES',
+          tags=['menupermissionstemplates']
          ) }}
 
 /****************************************************************
@@ -8,53 +8,44 @@
 *****************************************************************/
 (
 SELECT a.CLIENT_NM,
-       a.ID,
-       a.PID,
-       a.TAG,
+       a.MENUPERMISSIONSTEMPLATEID,
+       a.MENUPERMISSIONSTEMPLATELABEL,
+       a.NAVMENUIDLIST,
        a.SORT,
-       a.TYPE,
-       a.LABEL,
-       a.DATA,
-       a.ROLES,
-       a.ITEMID,
-       a.LASTMODIFIEDDATE,
+       a.ACTIVE,
+       a.ISCORP,
+       a.ISSITE,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  a
+  FROM "POC"."RAW"."MENUPERMISSIONSTEMPLATES"  a
 MINUS
 SELECT r.CLIENT_NM,
-       r.ID,
-       r.PID,
-       r.TAG,
+       r.MENUPERMISSIONSTEMPLATEID,
+       r.MENUPERMISSIONSTEMPLATELABEL,
+       r.NAVMENUIDLIST,
        r.SORT,
-       r.TYPE,
-       r.LABEL,
-       r.DATA,
-       r.ROLES,
-       r.ITEMID,
-       r.LASTMODIFIEDDATE,
+       r.ACTIVE,
+       r.ISCORP,
+       r.ISSITE,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."TYPES"  r
-  JOIN (SELECT ID,
-               PID,
-               TAG,
+  FROM "POC"."RAW"."MENUPERMISSIONSTEMPLATES"  r
+  JOIN (SELECT MENUPERMISSIONSTEMPLATEID,
+               MENUPERMISSIONSTEMPLATELABEL,
+               NAVMENUIDLIST,
                SORT,
-               TYPE,
-               LABEL,
-               DATA,
-               ROLES,
-               ITEMID,
-               LASTMODIFIEDDATE,
+               ACTIVE,
+               ISCORP,
+               ISSITE,
                land.CLIENT_NM AS CLIENT_NM,
                ROW_INSERT_TS,
                SYS_CHANGE_OPERATION,
                JSON_FILENAME
-          FROM "POC"."LANDING"."TYPES" land
+          FROM "POC"."LANDING"."MENUPERMISSIONSTEMPLATES" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
          WHERE SYS_CHANGE_OPERATION = 'U')  d 
     ON r.CLIENT_NM = d.CLIENT_NM
-    and r.ID = d.ID
+    and r.MENUPERMISSIONSTEMPLATEID = d.MENUPERMISSIONSTEMPLATEID
 )
 UNION
 
@@ -62,18 +53,15 @@ UNION
  *  This query grabs the NEW source rows that will be APPENDED to the target
  ********************************************************************************/
 SELECT land.CLIENT_NM AS CLIENT_NM,
-       ID,
-       PID,
-       TAG,
+       MENUPERMISSIONSTEMPLATEID,
+       MENUPERMISSIONSTEMPLATELABEL,
+       NAVMENUIDLIST,
        SORT,
-       TYPE,
-       LABEL,
-       DATA,
-       ROLES,
-       ITEMID,
-       LASTMODIFIEDDATE,
+       ACTIVE,
+       ISCORP,
+       ISSITE,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."TYPES" land
+  FROM "POC"."LANDING"."MENUPERMISSIONSTEMPLATES" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM
