@@ -1,4 +1,4 @@
-{{ config(alias='FC.TRANSACTIONSPERIOD',
+{{ config(alias='TRANSACTIONSPERIOD',
           tags=['transactionsperiod']
          ) }}
 
@@ -21,7 +21,7 @@ SELECT a.CLIENT_NM,
        a.RATE,
        a.CHANGEDBY,
        a.ROW_INSERT_TS
-  FROM "POC"."RAW"."FC.TRANSACTIONSPERIOD"  a
+  FROM "POC"."RAW"."TRANSACTIONSPERIOD"  a
 MINUS
 SELECT r.CLIENT_NM,
        r.SITEID,
@@ -37,7 +37,7 @@ SELECT r.CLIENT_NM,
        r.RATE,
        r.CHANGEDBY,
        r.ROW_INSERT_TS
-  FROM "POC"."RAW"."FC.TRANSACTIONSPERIOD"  r
+  FROM "POC"."RAW"."TRANSACTIONSPERIOD"  r
   JOIN (SELECT land.CLIENT_NM AS CLIENT_NM,
                SITEID,
                FCID,
@@ -52,7 +52,7 @@ SELECT r.CLIENT_NM,
                RATE,
                CHANGEDBY,
                ROW_INSERT_TS
-          FROM "POC"."LANDING"."FC.TRANSACTIONSPERIOD" land
+          FROM "POC"."LANDING"."TRANSACTIONSPERIOD" land
           JOIN {{ref('file_control')}}  ctrl
             ON land.JSON_FILENAME = ctrl.FILE_NAME and
                land.CLIENT_NM = ctrl.CLIENT_NM
@@ -84,7 +84,7 @@ SELECT land.CLIENT_NM AS CLIENT_NM,
        RATE,
        CHANGEDBY,
        ctrl.FILE_PROCESSED_TS AS ROW_INSERT_TS
-  FROM "POC"."LANDING"."FC.TRANSACTIONSPERIOD" land
+  FROM "POC"."LANDING"."TRANSACTIONSPERIOD" land
   JOIN {{ref('file_control')}}  ctrl
     ON land.JSON_FILENAME = ctrl.FILE_NAME and
        land.CLIENT_NM = ctrl.CLIENT_NM
