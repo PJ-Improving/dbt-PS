@@ -1,5 +1,4 @@
-{{ config(alias='TYPES',
-          tags=['types']
+{{ config(alias='TYPES'
          ) }}
 
 SELECT 
@@ -15,6 +14,6 @@ c.clientid
 , t.ITEMID
 , t.LASTMODIFIEDDATE
 ,current_timestamp ROW_INSERT_TS
-FROM POC.hvmg_raw.TYPES t
+FROM POC.RAW.TYPES t
 join poc.analytics.clients c
 on t.client_nm =c.name
