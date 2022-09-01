@@ -1,9 +1,3 @@
-{{
-  config(materialized='table'   ,
-  schema='ANALYTICS'
-)
-}}
-
 SELECT 
   c.clientid
   , t.SiteID
