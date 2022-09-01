@@ -1,3 +1,7 @@
+{{ config(alias='TYPES',
+          tags=['types']
+         ) }}
+
 SELECT 
 c.clientid
 , t.ID
