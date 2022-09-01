@@ -1,5 +1,5 @@
 {{ config(alias='SITESSUMMARYGROUP',
-          tags='site'
+          tags='analytics_sites'
          ) }}
 
 select 
