@@ -1,4 +1,5 @@
-{{ config(alias='ITEMSTYPES'
+{{ config(alias='ITEMSTYPES',
+          tags='analytics_items'
          ) }}
 
 select distinct 
