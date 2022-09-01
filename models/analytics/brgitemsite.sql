@@ -1,9 +1,6 @@
-{{
-  config(materialized='table'  ,
-  schema='ANALYTICS',
-  tags='item'
-)
-}}
+{{ config(alias='BRGITEMSITE',
+          tags=['item']
+         ) }}
 
 SELECT 
     c.clientid
