@@ -8,6 +8,6 @@ select
   ,sl.id sitelistid
   ,sl.label
 ,current_timestamp ROW_INSERT_TS
-from poc.raw.siteslists sl
+from POC.RAW.SITESLISTS sl
 join poc.analytics.clients c 
   on sl.client_nm =c.name
