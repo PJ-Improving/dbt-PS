@@ -1,3 +1,6 @@
+{{ config(alias='TRANSACTIONSPERIOD'
+         ) }}
+
 SELECT 
   c.clientid
   --, t.CALENDARID CALENDARTYPEID
