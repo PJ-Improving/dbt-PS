@@ -1,3 +1,6 @@
+{{ config(alias='TRANSACTIONSDAY'
+         ) }}
+
 SELECT 
   c.clientid
   , t.SiteID
