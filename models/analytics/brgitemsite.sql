@@ -1,5 +1,5 @@
 {{ config(alias='BRGITEMSITE',
-          tags=['item']
+          tags='analytics_items'
          ) }}
 
 SELECT 
