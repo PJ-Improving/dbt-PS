@@ -1,4 +1,4 @@
-{{ config(alias='ITEMSTYPES',
+{{ config(alias='ITEMTYPE',
           tags='analytics_items'
          ) }}
 
