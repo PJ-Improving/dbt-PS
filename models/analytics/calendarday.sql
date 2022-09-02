@@ -1,10 +1,5 @@
-
-{{
-  config(materialized='table'   ,
-  schema='ANALYTICS'
-)
-}}
-
+{{ config(alias='CALENDARDAY'
+         ) }}
 
 SELECT 
   c.clientid
@@ -16,6 +11,6 @@ SELECT
   , cd.FISCALPERIODSTART
   , cd.FISCALPERIODSTOP
   ,current_timestamp ROW_INSERT_TS
-FROM POC.hvmg_raw.CALENDARDAY cd
+FROM POC.RAW.CALENDARDAY cd
  join poc.analytics.clients c
 on cd.client_nm =c.name
