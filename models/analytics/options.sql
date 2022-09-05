@@ -1,4 +1,4 @@
-{{ config(alias='TYPES'
+{{ config(alias='OPTIONS'
          ) }}
 
 SELECT 
