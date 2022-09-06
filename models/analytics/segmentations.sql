@@ -1,4 +1,5 @@
-{{ config(alias='SEGMENTATIONS'
+{{ config(alias='SEGMENTATIONS',
+          tags='analytics_others'
          ) }}
 
 
