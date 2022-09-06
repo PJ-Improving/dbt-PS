@@ -1,4 +1,5 @@
-{{ config(alias='CURRENCYEXCHANGERATETYPE'
+{{ config(alias='CURRENCYEXCHANGERATETYPE',
+          tags='analytics_others'
          ) }}
 
 SELECT 
