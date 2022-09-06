@@ -1,4 +1,5 @@
-{{ config(alias='DATASETS'
+{{ config(alias='DATASETS',
+          tags='analytics_others'
          ) }}
 
 SELECT 
