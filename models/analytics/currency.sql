@@ -1,4 +1,5 @@
-{{ config(alias='CURRENCY'
+{{ config(alias='CURRENCY',
+          tags='analytics_others'
          ) }}
 
 SELECT 

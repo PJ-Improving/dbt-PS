@@ -1,4 +1,5 @@
-{{ config(alias='TRANSACTIONSPERIOD'
+{{ config(alias='TRANSACTIONSPERIOD',
+          tags='analytics_transactions'
          ) }}
 
 SELECT 
