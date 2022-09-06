@@ -1,5 +1,6 @@
 {{ config(alias='TRANSACTIONS',
-          tags=['transactions']
+          tags=['transactions'],
+          cluster_by=['CLIENT_NM','SITEID','TAG','DATE']
          ) }}
 
 /****************************************************************
