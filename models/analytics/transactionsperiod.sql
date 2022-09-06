@@ -1,5 +1,6 @@
 {{ config(alias='TRANSACTIONSPERIOD',
-          tags='analytics_transactions'
+          tags='analytics_transactions',
+          cluster_by=['CLIENTID','SITEID','FCID','YEAR','PERIOD']
          ) }}
 
 SELECT 
