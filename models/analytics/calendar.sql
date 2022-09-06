@@ -1,4 +1,5 @@
-{{ config(alias='CALENDAR'
+{{ config(alias='CALENDAR',
+          tags='analytics_others'
          ) }}
 
 SELECT 
