@@ -1,4 +1,5 @@
-{{ config(alias='DATASETSSITE'
+{{ config(alias='DATASETSSITE',
+          tags='analytics_others'
          ) }}
 
 SELECT 
