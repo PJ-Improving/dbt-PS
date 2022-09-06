@@ -1,4 +1,5 @@
-{{ config(alias='TRANSACTIONSDAY'
+{{ config(alias='TRANSACTIONSDAY',
+          tags='analytics_transactions'
          ) }}
 
 SELECT 
