@@ -1,5 +1,6 @@
 {{ config(alias='TRANSACTIONSDAYDETAIL',
-          tags=['transactionsdaydetail']
+          tags=['transactionsdaydetail'],
+          cluster_by=['CLIENT_NM','SITEID','FCID','DATE']
          ) }}
 
 /****************************************************************
