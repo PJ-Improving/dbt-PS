@@ -2,8 +2,8 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dbt_poc'
-version: '1.0.0'
+name: 'dbt_bronze'
+version: '1.2'
 config-version: 2
 
 vars:
@@ -33,20 +33,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
 models:
-  dbt_poc:
+  dbt_bronze:
+    temp:
+      +materialized: ephemeral
+    raw:
+      +materialized: table
+      +schema: RAW
+    status:
+      +materialized: table
+      +schema: ETL
     analytics:
       +materialized: table
       +schema: ANALYTICS
-    core_models:
-      +materialized: table
-      +schema: RAW
-    status_models:
-      +materialized: table
-      +schema: ETL
-    temp_models:
-      +materialized: ephemeral
       
-
-
 
 
